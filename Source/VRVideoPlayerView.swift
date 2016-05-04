@@ -12,7 +12,7 @@ import SpriteKit
 import AVFoundation
 import CoreMotion
 
-class VRVideoPlayerView: UIView {
+public class VRVideoPlayerView: UIView {
     
     private weak var sceneView: SCNView?
     
@@ -26,9 +26,9 @@ class VRVideoPlayerView: UIView {
     
     private var panGestureRecognizer: UIPanGestureRecognizer?
     
-    var panSensitiveness: Float = 100
-    var panEnable: Bool = true
-    var motionEnable: Bool = true {
+    public var panSensitiveness: Float = 100
+    public var panEnable: Bool = true
+    public var motionEnable: Bool = true {
         didSet(oldValue) {
             guard self.superview != nil else {
                 return
@@ -70,7 +70,7 @@ class VRVideoPlayerView: UIView {
     }
     private var currentCameraAngle: SCNVector3 = SCNVector3Zero
     
-    init(AVPlayer player: AVPlayer) {
+    public init(AVPlayer player: AVPlayer) {
         super.init(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         UIDeviceOrientationDidChangeNotification
         self.setupScene()
@@ -78,11 +78,11 @@ class VRVideoPlayerView: UIView {
         self.videoSKNode?.pause()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func didMoveToSuperview() {
+    public override func didMoveToSuperview() {
         super.didMoveToSuperview()
         self.cameraNode?.eulerAngles = self.cameraNodeAngle
         self.observeNotifications()
@@ -91,7 +91,7 @@ class VRVideoPlayerView: UIView {
         }
     }
     
-    override func willMoveToSuperview(newSuperview: UIView?) {
+    public override func willMoveToSuperview(newSuperview: UIView?) {
         super.willMoveToSuperview(newSuperview)
         if newSuperview == nil {
             self.unobserveNotifications()
@@ -109,7 +109,7 @@ class VRVideoPlayerView: UIView {
             removeChildNodesInNode(rootNode)
         }
     }
-
+    
 }
 
 //MARK: Setup
@@ -195,7 +195,7 @@ private extension VRVideoPlayerView {
 //MARK: SceneRenderer Delegate
 extension VRVideoPlayerView: SCNSceneRendererDelegate {
     
-    func renderer(renderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
+    public func renderer(renderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
         dispatch_async(dispatch_get_main_queue()) {
             if let currentAttitude = self.motionManager.deviceMotion?.attitude {
                 let roll: Float = {
@@ -217,7 +217,7 @@ extension VRVideoPlayerView: SCNSceneRendererDelegate {
 //MARK: GestureRecognizer Handler
 extension VRVideoPlayerView: UIGestureRecognizerDelegate {
     
-    override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    public override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
         return self.panEnable
     }
     
