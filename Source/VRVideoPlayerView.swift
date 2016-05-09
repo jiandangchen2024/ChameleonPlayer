@@ -24,7 +24,19 @@ public class VRVideoPlayerView: UIView {
     private weak var cameraPitchNode: SCNNode?
     private weak var cameraYawNode: SCNNode?
     
-    private var panGestureRecognizer: UIPanGestureRecognizer?
+    public var panGestureRecognizer: UIPanGestureRecognizer? {
+        willSet(newValue) {
+            if let panGR = newValue {
+                panGR.removeTarget(nil, action: nil)
+                panGR.addTarget(
+                    self,
+                    action: #selector(VRVideoPlayerView.panGestureRecognizerHandler(_:))
+                )
+                panGR.delegate = self
+                self.addGestureRecognizer(panGR)
+            }
+        }
+    }
     
     public var panSensitiveness: Float = 100
     public var panEnable: Bool = true
@@ -155,12 +167,7 @@ private extension VRVideoPlayerView {
         sceneView.delegate = self
         sceneView.playing = true
         
-        self.panGestureRecognizer = UIPanGestureRecognizer(
-            target: self,
-            action: #selector(VRVideoPlayerView.panGestureRecognizerHandler(_:))
-        )
-        self.panGestureRecognizer?.delegate = self
-        self.addGestureRecognizer(self.panGestureRecognizer!)
+        self.panGestureRecognizer = UIPanGestureRecognizer()
         self.userInteractionEnabled = true
     }
     
@@ -245,7 +252,7 @@ extension VRVideoPlayerView: UIGestureRecognizerDelegate {
 }
 
 //MARK: Player Control
-extension VRVideoPlayerView {
+public extension VRVideoPlayerView {
     
     func play() {
         videoSKNode?.play()
