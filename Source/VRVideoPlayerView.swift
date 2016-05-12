@@ -26,6 +26,9 @@ public class VRVideoPlayerView: UIView {
     
     public var panGestureRecognizer: UIPanGestureRecognizer? {
         willSet(newValue) {
+            if let currentGR = self.panGestureRecognizer {
+                self.removeGestureRecognizer(currentGR)
+            }
             if let panGR = newValue {
                 panGR.removeTarget(nil, action: nil)
                 panGR.addTarget(
@@ -228,7 +231,7 @@ extension VRVideoPlayerView: UIGestureRecognizerDelegate {
         return self.panEnable
     }
     
-    func panGestureRecognizerHandler(panGR: UIPanGestureRecognizer) {
+    public func panGestureRecognizerHandler(panGR: UIPanGestureRecognizer) {
         if let panView = panGR.view {
             let translation = panGR.translationInView(panView)
             
@@ -240,7 +243,7 @@ extension VRVideoPlayerView: UIGestureRecognizerDelegate {
             newAngleY += currentCameraAngle.y
             
             self.videoNode?.eulerAngles.y = -newAngleX / self.panSensitiveness
-            self.videoNode?.eulerAngles.z = newAngleY / self.panSensitiveness
+            self.videoNode?.eulerAngles.x = newAngleY / self.panSensitiveness
             
             if panGR.state == .Ended {
                 currentCameraAngle.x = newAngleX
