@@ -20,9 +20,11 @@ public class VRVideoPlayerView: UIView {
     
     private weak var videoNode: SCNNode?
     private weak var cameraNode: SCNNode?
-    private weak var cameraRollNode: SCNNode?
     private weak var cameraPitchNode: SCNNode?
+    private weak var cameraRollNode: SCNNode?
     private weak var cameraYawNode: SCNNode?
+    
+    private var isPaning: Bool = false
     
     public var panGestureRecognizer: UIPanGestureRecognizer? {
         willSet(newValue) {
@@ -41,7 +43,7 @@ public class VRVideoPlayerView: UIView {
         }
     }
     
-    public var panSensitiveness: Float = 100
+    public var panSensitiveness: Float = 150
     public var panEnable: Bool = true
     public var motionEnable: Bool = true {
         didSet(oldValue) {
@@ -83,7 +85,8 @@ public class VRVideoPlayerView: UIView {
         
         return SCNVector3(x: cameraNodeAngleX, y: cameraNodeAngleY, z: cameraNodeAngleZ)
     }
-    private var currentCameraAngle: SCNVector3 = SCNVector3Zero
+    private var currentCameraAngle: (pitch: Float, yaw: Float, roll: Float) = (0, 0, 0)
+    private var currentAttitudeAngle: (pitch: Float, yaw: Float, roll: Float) = (1.5, -1.5, 0)
     
     public init(AVPlayer player: AVPlayer) {
         super.init(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
@@ -115,6 +118,8 @@ public class VRVideoPlayerView: UIView {
     }
     
     deinit {
+        self.videoSKNode?.removeFromParent()
+        self.videoNode?.geometry?.firstMaterial?.diffuse.contents = nil
         if let rootNode = self.sceneView?.scene?.rootNode {
             func removeChildNodesInNode(node: SCNNode) {
                 for node in node.childNodes {
@@ -151,17 +156,17 @@ private extension VRVideoPlayerView {
         cameraNode.position = SCNVector3Zero
         self.cameraNode = cameraNode
         
-        let cameraRollNode = SCNNode()
-        cameraRollNode.addChildNode(cameraNode)
-        
         let cameraPitchNode = SCNNode()
-        cameraPitchNode.addChildNode(cameraRollNode)
+        cameraPitchNode.addChildNode(cameraNode)
+        
+        let cameraRollNode = SCNNode()
+        cameraRollNode.addChildNode(cameraPitchNode)
         
         let cameraYawNode = SCNNode()
-        cameraYawNode.addChildNode(cameraPitchNode)
+        cameraYawNode.addChildNode(cameraRollNode)
         
-        self.cameraRollNode = cameraRollNode
         self.cameraPitchNode = cameraPitchNode
+        self.cameraRollNode = cameraRollNode
         self.cameraYawNode = cameraYawNode
         
         sceneView.scene?.rootNode.addChildNode(cameraYawNode)
@@ -186,7 +191,7 @@ private extension VRVideoPlayerView {
         spriteKitScene.addChild(videoSKNode)
         
         let videoNode = SCNNode()
-        videoNode.geometry = SCNSphere(radius: 30)
+        videoNode.geometry = SCNSphere(radius: 50)
         videoNode.geometry?.firstMaterial?.diffuse.contents = spriteKitScene
         videoNode.geometry?.firstMaterial?.doubleSided = true
         
@@ -196,6 +201,7 @@ private extension VRVideoPlayerView {
         videoNode.pivot = SCNMatrix4MakeRotation(Float(M_PI_2), 0, -1, 0)
         videoNode.geometry?.firstMaterial?.diffuse.contentsTransform = transform
         videoNode.position = SCNVector3(x: 0, y: 0, z: 0)
+        videoNode.rotation = SCNVector4Make(1, 1, 1, 0)
         self.sceneView?.scene?.rootNode.addChildNode(videoNode)
         self.videoNode = videoNode
     }
@@ -206,18 +212,28 @@ private extension VRVideoPlayerView {
 extension VRVideoPlayerView: SCNSceneRendererDelegate {
     
     public func renderer(renderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
-        dispatch_async(dispatch_get_main_queue()) {
-            if let currentAttitude = self.motionManager.deviceMotion?.attitude {
-                let roll: Float = {
-                    if UIApplication.sharedApplication().statusBarOrientation == .LandscapeRight {
-                        return -1.0 * Float(-M_PI - currentAttitude.roll)
-                    } else {
-                        return Float(currentAttitude.roll)
-                    }
-                }()
-                self.cameraRollNode?.eulerAngles.x = roll
-                self.cameraPitchNode?.eulerAngles.z = Float(currentAttitude.pitch)
-                self.cameraYawNode?.eulerAngles.y = Float(currentAttitude.yaw)
+        if self.isPaning == false {
+            dispatch_async(dispatch_get_main_queue()) {
+                if let currentAttitude = self.motionManager.deviceMotion?.attitude {
+                    let roll: Float = {
+                        if UIApplication.sharedApplication().statusBarOrientation == .LandscapeRight {
+                            return -1.0 * Float(-M_PI - currentAttitude.roll)
+                        } else {
+                            return Float(currentAttitude.roll)
+                        }
+                    }()
+                    
+                    //because of landscape
+                    self.currentAttitudeAngle.pitch = roll
+                    self.currentAttitudeAngle.yaw = Float(currentAttitude.yaw)
+                    self.currentAttitudeAngle.roll = Float(currentAttitude.pitch)
+                    
+                    self.cameraPitchNode?.eulerAngles.x = (self.currentAttitudeAngle.pitch
+                        - self.currentCameraAngle.pitch / self.panSensitiveness)
+                    self.cameraYawNode?.eulerAngles.y = (self.currentAttitudeAngle.yaw
+                        - self.currentCameraAngle.yaw / self.panSensitiveness)
+                    self.cameraRollNode?.eulerAngles.z = self.currentAttitudeAngle.roll
+                }
             }
         }
     }
@@ -235,19 +251,27 @@ extension VRVideoPlayerView: UIGestureRecognizerDelegate {
         if let panView = panGR.view {
             let translation = panGR.translationInView(panView)
             
-            var newAngleX = Float(translation.x)
-            var newAngleY = Float(translation.y)
+            var newAngleYaw = Float(translation.x)
+            var newAnglePitch = Float(translation.y)
             
             //current angle is an instance variable so i am adding the newAngle to it
-            newAngleX += currentCameraAngle.x
-            newAngleY += currentCameraAngle.y
+            newAnglePitch += self.currentCameraAngle.pitch
+            newAngleYaw += self.currentCameraAngle.yaw
             
-            self.videoNode?.eulerAngles.y = -newAngleX / self.panSensitiveness
-            self.videoNode?.eulerAngles.x = newAngleY / self.panSensitiveness
+            self.cameraPitchNode?.eulerAngles.x = self.currentAttitudeAngle.pitch - newAnglePitch / self.panSensitiveness
+            self.cameraYawNode?.eulerAngles.y = self.currentAttitudeAngle.yaw - newAngleYaw / self.panSensitiveness
             
-            if panGR.state == .Ended {
-                currentCameraAngle.x = newAngleX
-                currentCameraAngle.y = newAngleY
+            switch panGR.state {
+            case .Began:
+                self.isPaning = true
+                
+            case .Cancelled, .Ended, .Failed:
+                self.isPaning = false
+                currentCameraAngle.pitch = newAnglePitch
+                currentCameraAngle.yaw = newAngleYaw
+                
+            default:
+                break
             }
         }
     }
