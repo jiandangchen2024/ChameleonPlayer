@@ -11,11 +11,30 @@
 		756A9BB71CE0508500D6B6B0 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75CBCF4B1CD9AD2100109BF6 /* CoreMotion.framework */; };
 		756A9BB81CE0508900D6B6B0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75CBCF491CD9AD1700109BF6 /* AVFoundation.framework */; };
 		756A9BB91CE0508D00D6B6B0 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75CBCF471CD9AD0A00109BF6 /* SpriteKit.framework */; };
+		757DD13E1CE4A51200DBC750 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757DD13D1CE4A51200DBC750 /* AppDelegate.swift */; };
+		757DD1401CE4A51200DBC750 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757DD13F1CE4A51200DBC750 /* ViewController.swift */; };
+		757DD1431CE4A51200DBC750 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 757DD1411CE4A51200DBC750 /* Main.storyboard */; };
+		757DD1451CE4A51200DBC750 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 757DD1441CE4A51200DBC750 /* Assets.xcassets */; };
+		757DD1481CE4A51200DBC750 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 757DD1461CE4A51200DBC750 /* LaunchScreen.storyboard */; };
+		757DD1541CE4A62100DBC750 /* VRVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CBCF5B1CD9B5C900109BF6 /* VRVideoPlayerView.swift */; };
+		757DD1551CE4A63600DBC750 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75CBCF491CD9AD1700109BF6 /* AVFoundation.framework */; };
+		757DD1561CE4A63B00DBC750 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75CBCF4B1CD9AD2100109BF6 /* CoreMotion.framework */; };
+		757DD1571CE4A63F00DBC750 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75CBCF471CD9AD0A00109BF6 /* SpriteKit.framework */; };
+		757DD1581CE4A64300DBC750 /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75CBCF451CD9ACFC00109BF6 /* SceneKit.framework */; };
+		758F7D281CF422260063E699 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758F7D271CF422260063E699 /* PlayerViewController.swift */; };
 		75CBCF551CD9B59900109BF6 /* ChameleonPlayer iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 75CBCF541CD9B59900109BF6 /* ChameleonPlayer iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75CBCF5C1CD9B5C900109BF6 /* VRVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CBCF5B1CD9B5C900109BF6 /* VRVideoPlayerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		757DD13B1CE4A51200DBC750 /* ChameleonPlayer Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChameleonPlayer Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		757DD13D1CE4A51200DBC750 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		757DD13F1CE4A51200DBC750 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		757DD1421CE4A51200DBC750 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		757DD1441CE4A51200DBC750 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		757DD1471CE4A51200DBC750 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		757DD1491CE4A51200DBC750 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		758F7D271CF422260063E699 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		75CBCF451CD9ACFC00109BF6 /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
 		75CBCF471CD9AD0A00109BF6 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 		75CBCF491CD9AD1700109BF6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -27,6 +46,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		757DD1381CE4A51200DBC750 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				757DD1581CE4A64300DBC750 /* SceneKit.framework in Frameworks */,
+				757DD1571CE4A63F00DBC750 /* SpriteKit.framework in Frameworks */,
+				757DD1561CE4A63B00DBC750 /* CoreMotion.framework in Frameworks */,
+				757DD1551CE4A63600DBC750 /* AVFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		75CBCF4E1CD9B59900109BF6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -41,6 +71,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		757DD13C1CE4A51200DBC750 /* ChameleonPlayer Demo */ = {
+			isa = PBXGroup;
+			children = (
+				757DD13D1CE4A51200DBC750 /* AppDelegate.swift */,
+				757DD13F1CE4A51200DBC750 /* ViewController.swift */,
+				758F7D271CF422260063E699 /* PlayerViewController.swift */,
+				757DD1411CE4A51200DBC750 /* Main.storyboard */,
+				757DD1441CE4A51200DBC750 /* Assets.xcassets */,
+				757DD1461CE4A51200DBC750 /* LaunchScreen.storyboard */,
+				757DD1491CE4A51200DBC750 /* Info.plist */,
+			);
+			path = "ChameleonPlayer Demo";
+			sourceTree = "<group>";
+		};
 		75CBCF2D1CD9ACA500109BF6 = {
 			isa = PBXGroup;
 			children = (
@@ -49,6 +93,7 @@
 				75CBCF471CD9AD0A00109BF6 /* SpriteKit.framework */,
 				75CBCF451CD9ACFC00109BF6 /* SceneKit.framework */,
 				75CBCF531CD9B59900109BF6 /* ChameleonPlayer iOS */,
+				757DD13C1CE4A51200DBC750 /* ChameleonPlayer Demo */,
 				75CBCF381CD9ACA500109BF6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -57,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				75CBCF521CD9B59900109BF6 /* ChameleonPlayer.framework */,
+				757DD13B1CE4A51200DBC750 /* ChameleonPlayer Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -93,6 +139,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		757DD13A1CE4A51200DBC750 /* ChameleonPlayer Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 757DD14C1CE4A51200DBC750 /* Build configuration list for PBXNativeTarget "ChameleonPlayer Demo" */;
+			buildPhases = (
+				757DD1371CE4A51200DBC750 /* Sources */,
+				757DD1381CE4A51200DBC750 /* Frameworks */,
+				757DD1391CE4A51200DBC750 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ChameleonPlayer Demo";
+			productName = "ChameleonPlayer Demo";
+			productReference = 757DD13B1CE4A51200DBC750 /* ChameleonPlayer Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
 		75CBCF511CD9B59900109BF6 /* ChameleonPlayer iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 75CBCF571CD9B59900109BF6 /* Build configuration list for PBXNativeTarget "ChameleonPlayer iOS" */;
@@ -117,9 +180,13 @@
 		75CBCF2E1CD9ACA500109BF6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Eyepetizer Inc.";
 				TargetAttributes = {
+					757DD13A1CE4A51200DBC750 = {
+						CreatedOnToolsVersion = 7.3;
+					};
 					75CBCF511CD9B59900109BF6 = {
 						CreatedOnToolsVersion = 7.3;
 					};
@@ -131,6 +198,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 75CBCF2D1CD9ACA500109BF6;
 			productRefGroup = 75CBCF381CD9ACA500109BF6 /* Products */;
@@ -138,11 +206,22 @@
 			projectRoot = "";
 			targets = (
 				75CBCF511CD9B59900109BF6 /* ChameleonPlayer iOS */,
+				757DD13A1CE4A51200DBC750 /* ChameleonPlayer Demo */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		757DD1391CE4A51200DBC750 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				757DD1481CE4A51200DBC750 /* LaunchScreen.storyboard in Resources */,
+				757DD1451CE4A51200DBC750 /* Assets.xcassets in Resources */,
+				757DD1431CE4A51200DBC750 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		75CBCF501CD9B59900109BF6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -153,6 +232,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		757DD1371CE4A51200DBC750 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				757DD1401CE4A51200DBC750 /* ViewController.swift in Sources */,
+				758F7D281CF422260063E699 /* PlayerViewController.swift in Sources */,
+				757DD13E1CE4A51200DBC750 /* AppDelegate.swift in Sources */,
+				757DD1541CE4A62100DBC750 /* VRVideoPlayerView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		75CBCF4D1CD9B59900109BF6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -163,7 +253,50 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		757DD1411CE4A51200DBC750 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				757DD1421CE4A51200DBC750 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		757DD1461CE4A51200DBC750 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				757DD1471CE4A51200DBC750 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		757DD14A1CE4A51200DBC750 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "ChameleonPlayer Demo/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.eyepetizer.ChameleonPlayer-Demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		757DD14B1CE4A51200DBC750 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "ChameleonPlayer Demo/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.eyepetizer.ChameleonPlayer-Demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		75CBCF3D1CD9ACA500109BF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -290,6 +423,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		757DD14C1CE4A51200DBC750 /* Build configuration list for PBXNativeTarget "ChameleonPlayer Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				757DD14A1CE4A51200DBC750 /* Debug */,
+				757DD14B1CE4A51200DBC750 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		75CBCF311CD9ACA500109BF6 /* Build configuration list for PBXProject "ChameleonPlayer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
