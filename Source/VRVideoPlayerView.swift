@@ -118,6 +118,7 @@ public class VRVideoPlayerView: UIView {
     }
     
     deinit {
+        self.unobserveNotifications()
         self.videoSKNode?.removeFromParent()
         self.videoNode?.geometry?.firstMaterial?.diffuse.contents = nil
         if let rootNode = self.sceneView?.scene?.rootNode {
