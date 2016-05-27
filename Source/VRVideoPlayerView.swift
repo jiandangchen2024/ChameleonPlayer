@@ -315,7 +315,9 @@ extension VRVideoPlayerView {
     }
     
     func applicationDidChangeStatusBarOrientationNotificationHandler(notification: NSNotification?) {
-        self.cameraNode?.eulerAngles = self.cameraNodeAngle
+        if UIApplication.sharedApplication().applicationState == .Active {
+            self.cameraNode?.eulerAngles = self.cameraNodeAngle
+        }
     }
     
 }
