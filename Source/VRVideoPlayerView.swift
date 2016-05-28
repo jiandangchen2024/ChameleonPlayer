@@ -88,12 +88,40 @@ public class VRVideoPlayerView: UIView {
     private var currentCameraAngle: (pitch: Float, yaw: Float, roll: Float) = (0, 0, 0)
     private var currentAttitudeAngle: (pitch: Float, yaw: Float, roll: Float) = (1.5, -1.5, 0)
     
+    public var pasued: Bool {
+        if let pasued = self.videoSKNode?.paused {
+            return pasued
+        }
+        return true
+    }
+    
     public init(AVPlayer player: AVPlayer) {
         super.init(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         UIDeviceOrientationDidChangeNotification
         self.setupScene()
         self.setupVideoSceneWithAVPlayer(player)
         self.videoSKNode?.pause()
+        
+        if let currentAttitude = self.motionManager.deviceMotion?.attitude {
+            let roll: Float = {
+                if UIApplication.sharedApplication().statusBarOrientation == .LandscapeRight {
+                    return -1.0 * Float(-M_PI - currentAttitude.roll)
+                } else {
+                    return Float(currentAttitude.roll)
+                }
+            }()
+            
+            //because of landscape
+            self.currentAttitudeAngle.pitch = roll
+            self.currentAttitudeAngle.yaw = Float(currentAttitude.yaw)
+            self.currentAttitudeAngle.roll = Float(currentAttitude.pitch)
+            
+            self.currentCameraAngle.pitch = -self.currentAttitudeAngle.pitch + 1.5
+            self.currentCameraAngle.yaw = -self.currentAttitudeAngle.yaw - 1.5
+            
+            self.cameraPitchNode?.eulerAngles.x = 1.5
+            self.cameraYawNode?.eulerAngles.y = -1.5
+        }
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -284,10 +312,12 @@ public extension VRVideoPlayerView {
     
     func play() {
         videoSKNode?.play()
+        videoSKNode?.paused = false
     }
     
     func pause() {
         videoSKNode?.pause()
+        videoSKNode?.paused = true
     }
     
 }
