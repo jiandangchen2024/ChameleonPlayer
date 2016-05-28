@@ -46,6 +46,8 @@ class PlayerViewController: UIViewController {
             action: #selector(PlayerViewController.playButtonTapActionHandler(_:)),
             forControlEvents: .TouchUpInside
         )
+        
+        self.observeNotifcations()
     }
     
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
@@ -69,4 +71,42 @@ class PlayerViewController: UIViewController {
         self.vrPlayer?.play()
     }
 
+}
+
+extension PlayerViewController {
+    
+    private func observeNotifcations() {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(PlayerViewController.applicationDidBecomeActiveNotificationHandler(_:)),
+            name: UIApplicationDidBecomeActiveNotification,
+            object: nil
+        )
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(PlayerViewController.applicationWillResginActiveNotificationHandler(_:)),
+            name: UIApplicationWillResignActiveNotification,
+            object: nil
+        )
+    }
+    
+    private func unobserveNotifications() {
+        let center = NSNotificationCenter.defaultCenter()
+        center.removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
+        center.removeObserver(self, name: UIApplicationWillResignActiveNotification, object: nil)
+    }
+    
+    func applicationDidBecomeActiveNotificationHandler(notification: NSNotification) {
+        guard UIApplication.sharedApplication().applicationState != UIApplicationState.Background else {
+            return
+        }
+        self.vrPlayer?.play()
+    }
+    
+    func applicationWillResginActiveNotificationHandler(notification: NSNotification) {
+        UIApplication.sharedApplication().idleTimerDisabled = false
+        self.vrPlayer?.pause()
+    }
+    
 }

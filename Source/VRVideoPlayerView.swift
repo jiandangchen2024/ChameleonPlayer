@@ -12,11 +12,26 @@ import SpriteKit
 import AVFoundation
 import CoreMotion
 
+private class VRVideoNode: SKVideoNode {
+    
+    private override var paused: Bool {
+        get {
+            return super.paused
+        }
+        set(newValue) {
+            if UIApplication.sharedApplication().applicationState != .Background {
+                super.paused = newValue
+            }
+        }
+    }
+    
+}
+
 public class VRVideoPlayerView: UIView {
     
     private weak var sceneView: SCNView?
     
-    private weak var videoSKNode: SKVideoNode?
+    private weak var videoSKNode: VRVideoNode?
     
     private weak var videoNode: SCNNode?
     private weak var cameraNode: SCNNode?
@@ -195,7 +210,7 @@ private extension VRVideoPlayerView {
         let spriteKitScene = SKScene(size: CGSize(width: 2500, height: 2500))
         spriteKitScene.scaleMode = .AspectFit
         
-        let videoSKNode = SKVideoNode(AVPlayer: player)
+        let videoSKNode = VRVideoNode(AVPlayer: player)
         videoSKNode.position = CGPoint(x: spriteKitScene.size.width / 2.0, y: spriteKitScene.size.height / 2.0)
         videoSKNode.size = spriteKitScene.size
         self.videoSKNode = videoSKNode
@@ -301,12 +316,18 @@ public extension VRVideoPlayerView {
     
     func play() {
         videoSKNode?.play()
-        videoSKNode?.paused = false
     }
     
     func pause() {
         videoSKNode?.pause()
-        videoSKNode?.paused = true
+    }
+    
+    func focuseCenter() {
+        self.currentCameraAngle.pitch = (self.currentAttitudeAngle.pitch - 1.5) * self.panSensitiveness
+        self.currentCameraAngle.yaw = (self.currentAttitudeAngle.yaw - 1.5) * self.panSensitiveness
+        
+        self.cameraPitchNode?.eulerAngles.x = 1.5
+        self.cameraYawNode?.eulerAngles.y = 1.5
     }
     
 }
