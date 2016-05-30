@@ -14,15 +14,30 @@ import CoreMotion
 
 private class VRVideoNode: SKVideoNode {
     
+    private var pasueLocked: Bool = false
+    
     private override var paused: Bool {
         get {
             return super.paused
         }
         set(newValue) {
-            if UIApplication.sharedApplication().applicationState != .Background {
+            if pasueLocked == false {
                 super.paused = newValue
+                pasueLocked = true
             }
         }
+    }
+    
+    private override func play() {
+        super.play()
+        self.pasueLocked = false
+        self.paused = false
+    }
+    
+    private override func pause() {
+        super.pause()
+        self.pasueLocked = false
+        self.paused = true
     }
     
 }
