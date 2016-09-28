@@ -14,50 +14,50 @@ import CoreMotion
 
 private class VRVideoNode: SKVideoNode {
     
-    private var pasueLocked: Bool = false
+    fileprivate var pasueLocked: Bool = false
     
-    private override var paused: Bool {
+    fileprivate override var isPaused: Bool {
         get {
-            return super.paused
+            return super.isPaused
         }
         set(newValue) {
             if pasueLocked == false {
-                super.paused = newValue
+                super.isPaused = newValue
                 pasueLocked = true
             }
         }
     }
     
-    private override func play() {
+    fileprivate override func play() {
         super.play()
         self.pasueLocked = false
-        self.paused = false
+        self.isPaused = false
     }
     
-    private override func pause() {
+    fileprivate override func pause() {
         super.pause()
         self.pasueLocked = false
-        self.paused = true
+        self.isPaused = true
     }
     
 }
 
-public class VRVideoPlayerView: UIView {
+open class VRVideoPlayerView: UIView {
     
-    private weak var sceneView: SCNView?
+    fileprivate weak var sceneView: SCNView?
     
-    private weak var videoSKNode: VRVideoNode?
+    fileprivate weak var videoSKNode: VRVideoNode?
     
-    private weak var videoNode: SCNNode?
-    private weak var cameraNode: SCNNode?
-    private weak var cameraPitchNode: SCNNode?
-    private weak var cameraRollNode: SCNNode?
-    private weak var cameraYawNode: SCNNode?
+    fileprivate weak var videoNode: SCNNode?
+    fileprivate weak var cameraNode: SCNNode?
+    fileprivate weak var cameraPitchNode: SCNNode?
+    fileprivate weak var cameraRollNode: SCNNode?
+    fileprivate weak var cameraYawNode: SCNNode?
     
-    private var isPaning: Bool = false
-    private var firstFocusing: Bool = false
+    fileprivate var isPaning: Bool = false
+    fileprivate var firstFocusing: Bool = false
     
-    public var panGestureRecognizer: UIPanGestureRecognizer? {
+    open var panGestureRecognizer: UIPanGestureRecognizer? {
         willSet(newValue) {
             if let currentGR = self.panGestureRecognizer {
                 self.removeGestureRecognizer(currentGR)
@@ -74,9 +74,9 @@ public class VRVideoPlayerView: UIView {
         }
     }
     
-    public var panSensitiveness: Float = 150
-    public var panEnable: Bool = true
-    public var motionEnable: Bool = true {
+    open var panSensitiveness: Float = 150
+    open var panEnable: Bool = true
+    open var motionEnable: Bool = true {
         didSet(oldValue) {
             guard self.superview != nil else {
                 return
@@ -84,7 +84,7 @@ public class VRVideoPlayerView: UIView {
             
             if self.motionEnable != oldValue {
                 if self.motionEnable == true {
-                    self.motionManager.startDeviceMotionUpdatesUsingReferenceFrame(.XArbitraryCorrectedZVertical)
+                    self.motionManager.startDeviceMotionUpdates(using: .xArbitraryCorrectedZVertical)
                 } else {
                     self.motionManager.stopDeviceMotionUpdates()
                 }
@@ -92,18 +92,18 @@ public class VRVideoPlayerView: UIView {
         }
     }
     
-    private var motionManager: CMMotionManager = {
+    fileprivate var motionManager: CMMotionManager = {
         let motionManager = CMMotionManager()
         motionManager.deviceMotionUpdateInterval = 1 / 60.0
         return motionManager
     }()
     
-    private var cameraNodeAngle: SCNVector3 {
+    fileprivate var cameraNodeAngle: SCNVector3 {
         let cameraNodeAngleX: Float = Float(-M_PI_2)
         var cameraNodeAngleY: Float = 0.0
         var cameraNodeAngleZ: Float = 0.0
         
-        switch UIApplication.sharedApplication().statusBarOrientation.rawValue {
+        switch UIApplication.shared.statusBarOrientation.rawValue {
         case 1:
             cameraNodeAngleY = Float(-M_PI_2)
         case 2:
@@ -116,11 +116,11 @@ public class VRVideoPlayerView: UIView {
         
         return SCNVector3(x: cameraNodeAngleX, y: cameraNodeAngleY, z: cameraNodeAngleZ)
     }
-    private var currentCameraAngle: (pitch: Float, yaw: Float, roll: Float) = (0, 0, 0)
-    private var currentAttitudeAngle: (pitch: Float, yaw: Float, roll: Float) = (1.5, 0, 0)
+    fileprivate var currentCameraAngle: (pitch: Float, yaw: Float, roll: Float) = (0, 0, 0)
+    fileprivate var currentAttitudeAngle: (pitch: Float, yaw: Float, roll: Float) = (1.5, 0, 0)
     
-    public var pasued: Bool {
-        if let pasued = self.videoSKNode?.paused {
+    open var pasued: Bool {
+        if let pasued = self.videoSKNode?.isPaused {
             return pasued
         }
         return true
@@ -128,7 +128,7 @@ public class VRVideoPlayerView: UIView {
     
     public init(AVPlayer player: AVPlayer) {
         super.init(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
-        UIDeviceOrientationDidChangeNotification
+        NSNotification.Name.UIDeviceOrientationDidChange
         self.setupScene()
         self.setupVideoSceneWithAVPlayer(player)
         self.videoSKNode?.pause()
@@ -138,17 +138,17 @@ public class VRVideoPlayerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func didMoveToSuperview() {
+    open override func didMoveToSuperview() {
         super.didMoveToSuperview()
         self.cameraNode?.eulerAngles = self.cameraNodeAngle
         self.observeNotifications()
         if self.motionEnable {
-            self.motionManager.startDeviceMotionUpdatesUsingReferenceFrame(.XArbitraryCorrectedZVertical)
+            self.motionManager.startDeviceMotionUpdates(using: .xArbitraryCorrectedZVertical)
         }
     }
     
-    public override func willMoveToSuperview(newSuperview: UIView?) {
-        super.willMoveToSuperview(newSuperview)
+    open override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
         if newSuperview == nil {
             self.unobserveNotifications()
             self.motionManager.stopDeviceMotionUpdates()
@@ -160,7 +160,7 @@ public class VRVideoPlayerView: UIView {
         self.videoSKNode?.removeFromParent()
         self.videoNode?.geometry?.firstMaterial?.diffuse.contents = nil
         if let rootNode = self.sceneView?.scene?.rootNode {
-            func removeChildNodesInNode(node: SCNNode) {
+            func removeChildNodesInNode(_ node: SCNNode) {
                 for node in node.childNodes {
                     removeChildNodesInNode(node)
                 }
@@ -177,8 +177,8 @@ private extension VRVideoPlayerView {
     func setupScene() {
         // Create Scene View
         let sceneView = SCNView(frame: self.bounds)
-        sceneView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        sceneView.backgroundColor = UIColor.blackColor()
+        sceneView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        sceneView.backgroundColor = UIColor.black
         self.sceneView = sceneView
         self.addSubview(sceneView)
         
@@ -215,17 +215,17 @@ private extension VRVideoPlayerView {
         sceneView.pointOfView = cameraNode
         
         sceneView.delegate = self
-        sceneView.playing = true
+        sceneView.isPlaying = true
         
         self.panGestureRecognizer = UIPanGestureRecognizer()
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
     }
     
-    func setupVideoSceneWithAVPlayer(player: AVPlayer) {
+    func setupVideoSceneWithAVPlayer(_ player: AVPlayer) {
         let spriteKitScene = SKScene(size: CGSize(width: 2500, height: 2500))
-        spriteKitScene.scaleMode = .AspectFit
+        spriteKitScene.scaleMode = .aspectFit
         
-        let videoSKNode = VRVideoNode(AVPlayer: player)
+        let videoSKNode = VRVideoNode(avPlayer: player)
         videoSKNode.position = CGPoint(x: spriteKitScene.size.width / 2.0, y: spriteKitScene.size.height / 2.0)
         videoSKNode.size = spriteKitScene.size
         self.videoSKNode = videoSKNode
@@ -235,7 +235,7 @@ private extension VRVideoPlayerView {
         let videoNode = SCNNode()
         videoNode.geometry = SCNSphere(radius: 50)
         videoNode.geometry?.firstMaterial?.diffuse.contents = spriteKitScene
-        videoNode.geometry?.firstMaterial?.doubleSided = true
+        videoNode.geometry?.firstMaterial?.isDoubleSided = true
         
         var transform = SCNMatrix4MakeRotation(Float(M_PI), 0, 0, 1)
         transform = SCNMatrix4Translate(transform, 1, 1, 0)
@@ -253,12 +253,12 @@ private extension VRVideoPlayerView {
 //MARK: SceneRenderer Delegate
 extension VRVideoPlayerView: SCNSceneRendererDelegate {
     
-    public func renderer(renderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
+    public func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         if self.isPaning == false {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 if let currentAttitude = self.motionManager.deviceMotion?.attitude {
                     let roll: Float = {
-                        if UIApplication.sharedApplication().statusBarOrientation == .LandscapeRight {
+                        if UIApplication.shared.statusBarOrientation == .landscapeRight {
                             return -1.0 * Float(-M_PI - currentAttitude.roll)
                         } else {
                             return Float(currentAttitude.roll)
@@ -291,13 +291,13 @@ extension VRVideoPlayerView: SCNSceneRendererDelegate {
 //MARK: GestureRecognizer Handler
 extension VRVideoPlayerView: UIGestureRecognizerDelegate {
     
-    public override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return self.panEnable
     }
     
-    public func panGestureRecognizerHandler(panGR: UIPanGestureRecognizer) {
+    public func panGestureRecognizerHandler(_ panGR: UIPanGestureRecognizer) {
         if let panView = panGR.view {
-            let translation = panGR.translationInView(panView)
+            let translation = panGR.translation(in: panView)
             
             var newAngleYaw = Float(translation.x)
             var newAnglePitch = Float(translation.y)
@@ -310,10 +310,10 @@ extension VRVideoPlayerView: UIGestureRecognizerDelegate {
             self.cameraYawNode?.eulerAngles.y = self.currentAttitudeAngle.yaw - newAngleYaw / self.panSensitiveness
             
             switch panGR.state {
-            case .Began:
+            case .began:
                 self.isPaning = true
                 
-            case .Cancelled, .Ended, .Failed:
+            case .cancelled, .ended, .failed:
                 self.isPaning = false
                 currentCameraAngle.pitch = newAnglePitch
                 currentCameraAngle.yaw = newAngleYaw
@@ -350,27 +350,27 @@ public extension VRVideoPlayerView {
 //MARK: Notification
 extension VRVideoPlayerView {
     
-    private func observeNotifications() {
-        let notificationCenter = NSNotificationCenter.defaultCenter()
+    fileprivate func observeNotifications() {
+        let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(
             self,
             selector: #selector(VRVideoPlayerView.applicationDidChangeStatusBarOrientationNotificationHandler(_:)),
-            name: UIApplicationDidChangeStatusBarOrientationNotification,
+            name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation,
             object: nil
         )
     }
     
-    private func unobserveNotifications() {
-        let notificationCenter = NSNotificationCenter.defaultCenter()
+    fileprivate func unobserveNotifications() {
+        let notificationCenter = NotificationCenter.default
         notificationCenter.removeObserver(
             self,
-            name: UIApplicationDidChangeStatusBarOrientationNotification,
+            name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation,
             object: nil
         )
     }
     
-    func applicationDidChangeStatusBarOrientationNotificationHandler(notification: NSNotification?) {
-        if UIApplication.sharedApplication().applicationState == .Active {
+    func applicationDidChangeStatusBarOrientationNotificationHandler(_ notification: Notification?) {
+        if UIApplication.shared.applicationState == .active {
             self.cameraNode?.eulerAngles = self.cameraNodeAngle
         }
     }

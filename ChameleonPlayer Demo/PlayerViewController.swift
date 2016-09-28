@@ -18,56 +18,56 @@ class PlayerViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let player = AVPlayer(URL: NSURL(string: "http://baobab.wdjcdn.com/1464062027434Canyon.mp4")!)
+        let player = AVPlayer(url: URL(string: "http://baobab.wdjcdn.com/1464062027434Canyon.mp4")!)
         self.player = player
         let vrPlayer = VRVideoPlayerView(AVPlayer: player)
         vrPlayer.frame = self.view.bounds
-        vrPlayer.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        vrPlayer.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         self.view.addSubview(vrPlayer)
         
         self.vrPlayer = vrPlayer
         
-        let button = UIButton(type: .Custom)
+        let button = UIButton(type: .custom)
         button.frame = CGRect(x: 10, y: 10, width: 120, height: 60)
         self.view.addSubview(button)
-        button.setTitle("关闭", forState: .Normal)
+        button.setTitle("关闭", for: UIControlState())
         button.addTarget(
             self,
             action: #selector(PlayerViewController.closeButtonTapActionHandler(_:)),
-            forControlEvents: .TouchUpInside
+            for: .touchUpInside
         )
         
-        let playButton = UIButton(type: .Custom)
+        let playButton = UIButton(type: .custom)
         playButton.frame = CGRect(x: 150, y: 10, width: 120, height: 60)
         self.view.addSubview(playButton)
-        playButton.setTitle("播放", forState: .Normal)
+        playButton.setTitle("播放", for: UIControlState())
         playButton.addTarget(
             self,
             action: #selector(PlayerViewController.playButtonTapActionHandler(_:)),
-            forControlEvents: .TouchUpInside
+            for: .touchUpInside
         )
         
         self.observeNotifcations()
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return .Landscape
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return .landscape
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.vrPlayer?.play()
     }
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return true
     }
     
-    func closeButtonTapActionHandler(sender: UIButton) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func closeButtonTapActionHandler(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
     
-    func playButtonTapActionHandler(sender: UIButton) {
+    func playButtonTapActionHandler(_ sender: UIButton) {
         self.vrPlayer?.play()
     }
 
@@ -75,37 +75,37 @@ class PlayerViewController: UIViewController {
 
 extension PlayerViewController {
     
-    private func observeNotifcations() {
-        let notificationCenter = NSNotificationCenter.defaultCenter()
+    fileprivate func observeNotifcations() {
+        let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(
             self,
             selector: #selector(PlayerViewController.applicationDidBecomeActiveNotificationHandler(_:)),
-            name: UIApplicationDidBecomeActiveNotification,
+            name: NSNotification.Name.UIApplicationDidBecomeActive,
             object: nil
         )
         notificationCenter.addObserver(
             self,
             selector: #selector(PlayerViewController.applicationWillResginActiveNotificationHandler(_:)),
-            name: UIApplicationWillResignActiveNotification,
+            name: NSNotification.Name.UIApplicationWillResignActive,
             object: nil
         )
     }
     
-    private func unobserveNotifications() {
-        let center = NSNotificationCenter.defaultCenter()
-        center.removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
-        center.removeObserver(self, name: UIApplicationWillResignActiveNotification, object: nil)
+    fileprivate func unobserveNotifications() {
+        let center = NotificationCenter.default
+        center.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        center.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
     }
     
-    func applicationDidBecomeActiveNotificationHandler(notification: NSNotification) {
-        guard UIApplication.sharedApplication().applicationState != UIApplicationState.Background else {
+    func applicationDidBecomeActiveNotificationHandler(_ notification: Notification) {
+        guard UIApplication.shared.applicationState != UIApplicationState.background else {
             return
         }
         self.vrPlayer?.play()
     }
     
-    func applicationWillResginActiveNotificationHandler(notification: NSNotification) {
-        UIApplication.sharedApplication().idleTimerDisabled = false
+    func applicationWillResginActiveNotificationHandler(_ notification: Notification) {
+        UIApplication.shared.isIdleTimerDisabled = false
         self.vrPlayer?.pause()
     }
     

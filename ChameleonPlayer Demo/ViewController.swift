@@ -15,22 +15,22 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let button = UIButton(type: .Custom)
+        let button = UIButton(type: .custom)
         button.frame = CGRect(x: 100, y: 100, width: 120, height: 60)
-        button.setTitle("播放", forState: .Normal)
-        button.backgroundColor = UIColor.redColor()
+        button.setTitle("播放", for: UIControlState())
+        button.backgroundColor = UIColor.red
         self.view.addSubview(button)
         
         button.addTarget(
             self,
             action: #selector(ViewController.playButtonTapActionHandler(_:)),
-            forControlEvents: .TouchUpInside
+            for: .touchUpInside
         )
     }
     
-    func playButtonTapActionHandler(button: UIButton) {
+    func playButtonTapActionHandler(_ button: UIButton) {
         let viewController = PlayerViewController()
-        self.presentViewController(viewController, animated: true, completion: nil)
+        self.present(viewController, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {

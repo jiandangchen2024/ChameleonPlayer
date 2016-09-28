@@ -22,7 +22,7 @@
 		757DD1571CE4A63F00DBC750 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75CBCF471CD9AD0A00109BF6 /* SpriteKit.framework */; };
 		757DD1581CE4A64300DBC750 /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75CBCF451CD9ACFC00109BF6 /* SceneKit.framework */; };
 		758F7D281CF422260063E699 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758F7D271CF422260063E699 /* PlayerViewController.swift */; };
-		75CBCF551CD9B59900109BF6 /* ChameleonPlayer iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 75CBCF541CD9B59900109BF6 /* ChameleonPlayer iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		75CBCF551CD9B59900109BF6 /* ChameleonPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 75CBCF541CD9B59900109BF6 /* ChameleonPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75CBCF5C1CD9B5C900109BF6 /* VRVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CBCF5B1CD9B5C900109BF6 /* VRVideoPlayerView.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,7 +40,7 @@
 		75CBCF491CD9AD1700109BF6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		75CBCF4B1CD9AD2100109BF6 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		75CBCF521CD9B59900109BF6 /* ChameleonPlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ChameleonPlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		75CBCF541CD9B59900109BF6 /* ChameleonPlayer iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ChameleonPlayer iOS.h"; sourceTree = "<group>"; };
+		75CBCF541CD9B59900109BF6 /* ChameleonPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChameleonPlayer.h; sourceTree = "<group>"; };
 		75CBCF561CD9B59900109BF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75CBCF5B1CD9B5C900109BF6 /* VRVideoPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VRVideoPlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -111,7 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				75CBCF5A1CD9B5C900109BF6 /* Source */,
-				75CBCF541CD9B59900109BF6 /* ChameleonPlayer iOS.h */,
+				75CBCF541CD9B59900109BF6 /* ChameleonPlayer.h */,
 				75CBCF561CD9B59900109BF6 /* Info.plist */,
 			);
 			path = "ChameleonPlayer iOS";
@@ -132,7 +132,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75CBCF551CD9B59900109BF6 /* ChameleonPlayer iOS.h in Headers */,
+				75CBCF551CD9B59900109BF6 /* ChameleonPlayer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +186,8 @@
 				TargetAttributes = {
 					757DD13A1CE4A51200DBC750 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 2MEML6RC3R;
+						LastSwiftMigration = 0800;
 					};
 					75CBCF511CD9B59900109BF6 = {
 						CreatedOnToolsVersion = 7.3;
@@ -277,11 +279,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 2MEML6RC3R;
 				INFOPLIST_FILE = "ChameleonPlayer Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.eyepetizer.ChameleonPlayer-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -289,11 +293,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 2MEML6RC3R;
 				INFOPLIST_FILE = "ChameleonPlayer Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.eyepetizer.ChameleonPlayer-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -401,6 +407,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.eyepetizer.$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = ChameleonPlayer;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -417,6 +424,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.eyepetizer.$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = ChameleonPlayer;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
