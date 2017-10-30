@@ -191,6 +191,7 @@
 					};
 					75CBCF511CD9B59900109BF6 = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0820;
 					};
 				};
 			};
