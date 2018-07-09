@@ -2,9 +2,9 @@ Pod::Spec.new do |s|
   s.name     = 'ChameleonPlayer'
   s.version  = '3.0.0'
   s.author   = { 'Eyepetizer Inc.' => 'liuyan@kaiyanapp.com' }
-  s.homepage = 'https://github.com/eyepetizers/ChameleonPlayer'
+  s.homepage = 'https://gitlab.com/eyepetizer/Eye-iOS/ChameleonPlayer'
   s.summary  = 'ChameleonPlayer is a VR Video Player for iOS. Include 360 degress and VR Glasses Mode.'
-  s.source   = { :git => 'https://github.com/eyepetizers/ChameleonPlayer.git', :tag => '3.0.0' }
+  s.source   = { :git => 'https://gitlab.com/eyepetizer/Eye-iOS/ChameleonPlayer.git', :tag => '3.0.0' }
   s.license  = 'MIT'
   
   s.platform = :ios
