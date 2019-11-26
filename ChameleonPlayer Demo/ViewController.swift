@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         )
     }
     
-    func playButtonTapActionHandler(_ button: UIButton) {
+    @objc func playButtonTapActionHandler(_ button: UIButton) {
         let viewController = PlayerViewController()
         self.present(viewController, animated: true, completion: nil)
     }

@@ -295,7 +295,7 @@ extension VRVideoPlayerView: UIGestureRecognizerDelegate {
         return self.panEnable
     }
     
-    public func panGestureRecognizerHandler(_ panGR: UIPanGestureRecognizer) {
+    @objc public func panGestureRecognizerHandler(_ panGR: UIPanGestureRecognizer) {
         if let panView = panGR.view {
             let translation = panGR.translation(in: panView)
             
@@ -369,7 +369,7 @@ extension VRVideoPlayerView {
         )
     }
     
-    func applicationDidChangeStatusBarOrientationNotificationHandler(_ notification: Notification?) {
+    @objc func applicationDidChangeStatusBarOrientationNotificationHandler(_ notification: Notification?) {
         if UIApplication.shared.applicationState == .active {
             self.cameraNode?.eulerAngles = self.cameraNodeAngle
         }

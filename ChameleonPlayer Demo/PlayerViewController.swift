@@ -63,11 +63,11 @@ class PlayerViewController: UIViewController {
         return true
     }
     
-    func closeButtonTapActionHandler(_ sender: UIButton) {
+    @objc func closeButtonTapActionHandler(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func playButtonTapActionHandler(_ sender: UIButton) {
+    @objc func playButtonTapActionHandler(_ sender: UIButton) {
         self.vrPlayer?.play()
     }
 
@@ -97,14 +97,14 @@ extension PlayerViewController {
         center.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
     }
     
-    func applicationDidBecomeActiveNotificationHandler(_ notification: Notification) {
+    @objc func applicationDidBecomeActiveNotificationHandler(_ notification: Notification) {
         guard UIApplication.shared.applicationState != UIApplicationState.background else {
             return
         }
         self.vrPlayer?.play()
     }
     
-    func applicationWillResginActiveNotificationHandler(_ notification: Notification) {
+    @objc func applicationWillResginActiveNotificationHandler(_ notification: Notification) {
         UIApplication.shared.isIdleTimerDisabled = false
         self.vrPlayer?.pause()
     }
