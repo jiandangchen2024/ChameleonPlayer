@@ -128,7 +128,7 @@ open class VRVideoPlayerView: UIView {
     
     public init(AVPlayer player: AVPlayer) {
         super.init(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
-        NSNotification.Name.UIDeviceOrientationDidChange
+        UIDevice.orientationDidChangeNotification
         self.setupScene()
         self.setupVideoSceneWithAVPlayer(player)
         self.videoSKNode?.pause()
@@ -355,7 +355,7 @@ extension VRVideoPlayerView {
         notificationCenter.addObserver(
             self,
             selector: #selector(VRVideoPlayerView.applicationDidChangeStatusBarOrientationNotificationHandler(_:)),
-            name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation,
+            name: UIApplication.didChangeStatusBarOrientationNotification,
             object: nil
         )
     }
@@ -364,7 +364,7 @@ extension VRVideoPlayerView {
         let notificationCenter = NotificationCenter.default
         notificationCenter.removeObserver(
             self,
-            name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation,
+            name: UIApplication.didChangeStatusBarOrientationNotification,
             object: nil
         )
     }
