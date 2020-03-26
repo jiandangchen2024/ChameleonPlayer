@@ -30,7 +30,7 @@ class PlayerViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.frame = CGRect(x: 10, y: 10, width: 120, height: 60)
         self.view.addSubview(button)
-        button.setTitle("关闭", for: UIControlState())
+        button.setTitle("关闭", for: .normal)
         button.addTarget(
             self,
             action: #selector(PlayerViewController.closeButtonTapActionHandler(_:)),
@@ -40,7 +40,7 @@ class PlayerViewController: UIViewController {
         let playButton = UIButton(type: .custom)
         playButton.frame = CGRect(x: 150, y: 10, width: 120, height: 60)
         self.view.addSubview(playButton)
-        playButton.setTitle("播放", for: UIControlState())
+        playButton.setTitle("播放", for: .normal)
         playButton.addTarget(
             self,
             action: #selector(PlayerViewController.playButtonTapActionHandler(_:)),
@@ -80,25 +80,25 @@ extension PlayerViewController {
         notificationCenter.addObserver(
             self,
             selector: #selector(PlayerViewController.applicationDidBecomeActiveNotificationHandler(_:)),
-            name: NSNotification.Name.UIApplicationDidBecomeActive,
+            name: UIApplication.didBecomeActiveNotification,
             object: nil
         )
         notificationCenter.addObserver(
             self,
             selector: #selector(PlayerViewController.applicationWillResginActiveNotificationHandler(_:)),
-            name: NSNotification.Name.UIApplicationWillResignActive,
+            name: UIApplication.willResignActiveNotification,
             object: nil
         )
     }
     
     fileprivate func unobserveNotifications() {
         let center = NotificationCenter.default
-        center.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
-        center.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
+        center.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
+        center.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
     }
     
     @objc func applicationDidBecomeActiveNotificationHandler(_ notification: Notification) {
-        guard UIApplication.shared.applicationState != UIApplicationState.background else {
+        guard UIApplication.shared.applicationState != UIApplication.State.background else {
             return
         }
         self.vrPlayer?.play()

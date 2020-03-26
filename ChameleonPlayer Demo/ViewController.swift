@@ -17,7 +17,7 @@ class ViewController: UIViewController {
         
         let button = UIButton(type: .custom)
         button.frame = CGRect(x: 100, y: 100, width: 120, height: 60)
-        button.setTitle("播放", for: UIControlState())
+        button.setTitle("播放", for: .normal)
         button.backgroundColor = UIColor.red
         self.view.addSubview(button)
         
